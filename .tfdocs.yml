@@ -1,0 +1,14 @@
+formatter: "markdown table"
+
+output:
+  file: <SVC>.md
+  mode: inject
+
+content: |-
+  {{ .Header }}
+
+  {{ .Modules }}
+
+  {{ .Inputs }}
+
+  {{ .Outputs }}  
