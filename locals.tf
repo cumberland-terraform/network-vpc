@@ -15,19 +15,6 @@ locals {
     
     ## CALCULATED PROPERTIES
     #   Properties that change based on deployment configurations
-    secondary_cidrs                     = toset(try(slice(
-                                            var.vpc.cidr_blocks, 
-                                            1, 
-                                            length(var.vpc.cidr_blocks)
-                                        ),null))
-
-    platform                            = merge({
-        # SERVICE SPECIFIC PLATFORM ARGS GO HERE, IF ANY.
-    }, var.platform)
-    
-    prv_platform                        = merge({
-
-    }, local.platform)
 
     platforms                           = {
         default                         = merge({
@@ -46,6 +33,17 @@ locals {
             subnet_type                 = "CONTAINER NETWORK"
         })
     }
+
+    dhcp_options                        = {
+        domain_name                     = "TODO"
+        domain_name_servers             = [ "TODO" ]
+    }
+    
+    secondary_cidrs                     = toset(try(slice(
+                                            var.vpc.cidr_blocks, 
+                                            1, 
+                                            length(var.vpc.cidr_blocks)
+                                        ), null))
 
     subnets                             = {
         private                         = { for index, az in var.vpc.availability_zones: 
@@ -69,6 +67,12 @@ locals {
             }
         }
     }
+
+    routes                              = [{
+        destination_cidr_block          = "TODO"
+    }, {
+        destination_prefix_list_id      = "TODO"
+    }]
 
     tags                                = { for key, value in module.platforms: 
                                             key => value.tags }
