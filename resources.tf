@@ -11,14 +11,14 @@ resource "aws_vpc_ipv4_cidr_block_association" "this" {
 }
 
 resource "aws_vpc_dhcp_options" "this" {
-  domain_name                   = local.dhcp_options.domain_name
-  domain_name_servers           = local.dhcp_options.domain_name_servers
-  tags                          = local.tags.default
+    domain_name                 = local.dhcp_options.domain_name
+    domain_name_servers         = local.dhcp_options.domain_name_servers
+    tags                        = local.tags.default
 }
 
 resource "aws_vpc_dhcp_options_association" "dns_resolver" {
-  vpc_id                        = aws_vpc.this.id
-  dhcp_options_id               = aws_vpc_dhcp_options.this.id
+    vpc_id                      = aws_vpc.this.id
+    dhcp_options_id             = aws_vpc_dhcp_options.this.id
 }
 
 resource "aws_subnet" "private" {
