@@ -1,7 +1,7 @@
 formatter: "markdown table"
 
 output:
-  file: <SVC>.md
+  file: VPC.md
   mode: inject
 
 content: |-

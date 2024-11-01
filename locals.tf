@@ -6,7 +6,7 @@ locals {
         # TODO: conditional calculations go here
     }
 
-    ## <SERVICE> DEFAULTS
+    ## VPC DEFAULTS
     #   These are platform defaults and should only be changed when the 
     #       platform itself changes.
     platform_defaults                   = {

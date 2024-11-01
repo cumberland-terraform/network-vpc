@@ -1,8 +1,8 @@
 # Enterprise Terraform 
-## AWS Core TEMPLATE
+## AWS Core Network: Virtual Private Cloud
 ### Overview
 
-This is a template. See [Module Setup documentation](https://source.mdthink.maryland.gov/projects/ETM/repos/mdt-eter-mod-docs/browse/procedures/05_module_setup.md) for information on its use.
+TODO
 
 ### Usage
 
@@ -12,11 +12,11 @@ The bare minimum deployment can be achieved with the following configuration,
 
 ```hcl
 provider "aws" {
-	alias 					= "tenant"
-	region					= "us-east-1"
+	alias 								= "tenant"
+	region								= "<region>"
 
 	assume_role {
-		role_arn 			= "arn:aws:iam::<tenant-account>:role/<role-name>"
+		role_arn 						= "arn:aws:iam::<tenant-account>:role/<role-name>"
 	}
 }
 ```
@@ -24,28 +24,32 @@ provider "aws" {
 **modules.tf**
 
 ```
-module "<service>" {
-	source          		= "ssh://git@source.mdthink.maryland.gov:22/etm/mdt-eter-aws-core-<component>-<service>.git"
+module "vpc" {
+	source          					= "ssh://git@source.mdthink.maryland.gov:22/etm/mdt-eter-aws-core-network-vpc.git"
 	
-	platform	                = {
-		aws_region              = "<region-name>"
-                account                 = "<account-name>"
-                acct_env                = "<account-environment>"
-                agency                  = "<agency>"
-                program                 = "<program>"
-                app_env                 = "<application-environment>"
-                domain                  = "<active-directory-domain>"
-                pca                     = "<pca-code>"
-                availability_zones      = [ "<availability-zones>" ]
+	providers 							= {
+		aws 							= aws.tenant
 	}
 
-	<service>			= {
+	platform	                		= {
+		aws_region              		= "<region-name>"
+		account                 		= "<account-name>"
+		acct_env                		= "<account-environment>"
+		agency                  		= "<agency>"
+		program                 		= "<program>"
+		app_env                 		= "<application-environment>"
+		domain                  		= "<active-directory-domain>"
+		pca                     		= "<pca-code>"
+		availability_zones      		= [ "<availability-zones>" ]
+	}
+
+	vpc									= {
         # TODO
 	}
 }
 ```
 
-`platform` is a parameter for *all* **MDThink Enterprise Terraform** modules. For more information about the `platform`, in particular the permitted values of the nested fields, see the [mdt-eter-platform documentation](https://source.mdthink.maryland.gov/projects/etm/repos/mdt-eter-platform/browse). The following section goes into more detail regarding the `<service>` variable.
+`platform` is a parameter for *all* **MDThink Enterprise Terraform** modules. For more information about the `platform`, in particular the permitted values of the nested fields, see the [mdt-eter-platform documentation](https://source.mdthink.maryland.gov/projects/etm/repos/mdt-eter-platform/browse). The following section goes into more detail regarding the `vpc` variable.
 
 ### Parameters
 
