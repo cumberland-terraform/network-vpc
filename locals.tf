@@ -26,12 +26,6 @@ locals {
         public                          = merge({
             subnet_type                 = "PUBLIC"
         })
-        nat                             = merge({
-            subnet_type                 = "NETWORK ADDRESS TRANSLATION"
-        })
-        cni                             = merge({
-            subnet_type                 = "CONTAINER NETWORK"
-        })
     }
 
     dhcp_options                        = {
@@ -52,16 +46,6 @@ locals {
             }
         }
         public                          = { for index, az in var.vpc.availability_zones: 
-            az                          => {
-                cidr_block              = "TODO: calculate"
-            }
-        }
-        nat                             = { for index, az in var.vpc.availability_zones: 
-            az                          => {
-                cidr_block              = "TODO: CALCULATE"
-            }
-        }
-        cni                             = { for index, az in var.vpc.availability_zones: 
             az                          => {
                 cidr_block              = "TODO: calculate"
             }

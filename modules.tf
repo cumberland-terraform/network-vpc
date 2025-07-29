@@ -1,7 +1,7 @@
 module "platforms" {
   for_each              = local.platforms
 
-  source                = "git::ssh://git@source.mdthink.maryland.gov:22/etm/mdt-eter-platform.git?depth=1&ref=v1.0.20"
+  source                = "github.com/cumberland-terraform/network-vpc.git"
 
   platform              = each.value
 }

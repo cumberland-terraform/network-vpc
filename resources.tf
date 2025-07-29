@@ -37,22 +37,6 @@ resource "aws_subnet" "public" {
     cidr_block                  = each.value
 }
 
-resource "aws_subnet" "nat" {
-    for_each                    = local.subnets.nat
-
-    vpc_id                      = aws_vpc.this.id
-    tags                        = local.tags.private
-    cidr_block                  = each.value
-}
-
-resource "aws_subnet" "cni" {
-    for_each                    = local.subnets.cni
-
-    vpc_id                      = aws_vpc.this.id
-    tags                        = local.tags.private
-    cidr_block                  = each.value
-}
-
 resource "aws_route_table" "this" {
     vpc_id                      = aws_vpc.this.id
 }
@@ -68,9 +52,7 @@ resource "aws_route" "this" {
 resource "aws_route_table_association" "this" {
     for_each                    = merge(
                                     aws_subnet.public, 
-                                    aws_subnet.private, 
-                                    aws_subnet.nat, 
-                                    aws_subnet.cni
+                                    aws_subnet.private
                                 )
 
     subnet_id                   = each.value.id
