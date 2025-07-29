@@ -16,12 +16,12 @@ resource "aws_internet_gateway" "this" {
 }
 
 resource "aws_eip" "nat" {
-    count                       = var.vpc.enable_nat_gatewy ? 1 : 0
+    count                       = var.vpc.enable_nat_gateway ? 1 : 0
     domain                      = "vpc"
 }
 
 resource "aws_nat_gateway" "this" {
-    count                       = var.vpc.enable_nat_gatewy ? 1 : 0
+    count                       = var.vpc.enable_nat_gateway ? 1 : 0
     depends_on                  = [ aws_internet_gateway.this ]
 
     allocation_id               = aws_eip.nat[count.index].id
