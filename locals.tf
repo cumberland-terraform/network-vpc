@@ -23,10 +23,10 @@ locals {
         }, var.platform)
         private                         = merge({
             subnet_type                 = "PRIVATE"
-        })
+        }, var.platform)
         public                          = merge({
             subnet_type                 = "PUBLIC"
-        })
+        }, var.platform)
     }
     
     secondary_cidrs                     = toset(try(slice(
