@@ -34,7 +34,7 @@ resource "aws_subnet" "public" {
 
     vpc_id                      = aws_vpc.this.id
     tags                        = local.tags.private
-    cidr_block                  = each.value
+    cidr_block                  = each.value.cidr_block
 }
 
 resource "aws_route_table" "public" {
@@ -60,7 +60,7 @@ resource "aws_subnet" "private" {
 
     vpc_id                      = aws_vpc.this.id
     tags                        = local.tags.private
-    cidr_block                  = each.value
+    cidr_block                  = each.value.cidr_block
 }
 
 resource "aws_route_table" "private" {
