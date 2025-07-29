@@ -29,15 +29,6 @@ resource "aws_nat_gateway" "this" {
     tags                        = local.tags.public
 }
 
-
-resource "aws_subnet" "private" {
-    for_each                    = local.subnets.private
-
-    vpc_id                      = aws_vpc.this.id
-    tags                        = local.tags.private
-    cidr_block                  = each.value
-}
-
 resource "aws_subnet" "public" {
     for_each                    = local.subnets.public
 
@@ -46,7 +37,7 @@ resource "aws_subnet" "public" {
     cidr_block                  = each.value
 }
 
-resource "aws_route_table" "this" {
+resource "aws_route_table" "public" {
     vpc_id                      = aws_vpc.this.id
     tags                        = local.tags.default
 }
@@ -62,6 +53,14 @@ resource "aws_route_table_association" "public" {
 
     subnet_id                   = each.value.id
     route_table_id              = aws_route_table.public.id
+}
+
+resource "aws_subnet" "private" {
+    for_each                    = local.subnets.private
+
+    vpc_id                      = aws_vpc.this.id
+    tags                        = local.tags.private
+    cidr_block                  = each.value
 }
 
 resource "aws_route_table" "private" {

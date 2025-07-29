@@ -12,7 +12,6 @@ locals {
     platform_defaults                   = {
         private_subnet_block            = 4
         public_subnet_block             = 4
-        # TODO: platform defaults go here
     }
     
     ## CALCULATED PROPERTIES
