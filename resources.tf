@@ -44,14 +44,13 @@ resource "aws_nat_gateway" "this" {
 resource "aws_subnet" "public" {
   for_each                    = local.subnets.public
 
-
   lifecycle {
     ignore_changes            = [ tags ]
   }
 
   availability_zone           = each.key
   vpc_id                      = aws_vpc.this.id
-  tags                        = local.tags.private
+  tags                        = local.tags.public
   cidr_block                  = each.value.cidr_block
 }
 
@@ -61,7 +60,7 @@ resource "aws_route_table" "public" {
   }
 
   vpc_id                      = aws_vpc.this.id
-  tags                        = local.tags.default
+  tags                        = local.tags.public
 }
 
 resource "aws_route" "public" {
