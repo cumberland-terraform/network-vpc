@@ -1,4 +1,8 @@
 resource "aws_vpc" "this" {
+    lifecycle {
+      ignore_changes            = [ tags ]
+    }
+    
     cidr_block                  = var.vpc.cidr_blocks[0]
     tags                        = local.tags.default
 }
@@ -11,6 +15,10 @@ resource "aws_vpc_ipv4_cidr_block_association" "this" {
 }
 
 resource "aws_internet_gateway" "this" {
+    lifecycle {
+      ignore_changes            = [ tags ]
+    }
+    
     vpc_id                      = aws_vpc.this.id
     tags                        = local.tags.default
 }
@@ -23,6 +31,10 @@ resource "aws_eip" "nat" {
 resource "aws_nat_gateway" "this" {
     count                       = var.vpc.enable_nat_gateway ? 1 : 0
     depends_on                  = [ aws_internet_gateway.this ]
+
+    lifecycle {
+      ignore_changes            = [ tags ]
+    }
 
     allocation_id               = aws_eip.nat[count.index].id
     subnet_id                   = aws_subnet.public[keys(local.subnets.public)[count.index]].id
@@ -82,7 +94,7 @@ resource "aws_route_table" "private" {
     lifecycle {
       ignore_changes            = [ tags ]
     }
-    
+
     vpc_id                      = aws_vpc.this.id
     tags                        = local.tags.private
 }
