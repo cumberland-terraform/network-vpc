@@ -7,9 +7,10 @@ variable "platform" {
 }
 
 variable "vpc" {
-  description               = "Virtual Private Cloud configuration object. See [README] (https://source.mdthink.maryland.gov/projects/etm/repos/mdt-eter-core-network-vpc/browse) for detailed information about the permitted values for each field"
+  description               = "Virtual Private Cloud configuration object."
 
   type                      = object({
+    enable_nat_gateway      = optional(bool, true)
     cidr_blocks             = list(string)
     availability_zones      = list(string)
   })

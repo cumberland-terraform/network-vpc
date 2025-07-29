@@ -41,7 +41,10 @@ module "vpc" {
 	}
 
 	vpc									= {
-        # TODO
+        vpc								= {
+			cidr_blocks        			= ["10.0.0.0/16"]
+			availability_zones 			= ["us-east-1a", "us-east-1b"]
+		}
 	}
 }
 ```
@@ -50,4 +53,5 @@ module "vpc" {
 
 ### Parameters
 
-TODO
+- ``vpc``: Virtual Private Cloud configuration object. 
+	- ``enable_nat_gateway``: Flag for NAT gateway in private subnets.

@@ -10,6 +10,8 @@ locals {
     #   These are platform defaults and should only be changed when the 
     #       platform itself changes.
     platform_defaults                   = {
+        private_subnet_block            = 4
+        public_subnet_block             = 4
         # TODO: platform defaults go here
     }
     
@@ -27,11 +29,6 @@ locals {
             subnet_type                 = "PUBLIC"
         })
     }
-
-    dhcp_options                        = {
-        domain_name                     = "TODO"
-        domain_name_servers             = [ "TODO" ]
-    }
     
     secondary_cidrs                     = toset(try(slice(
                                             var.vpc.cidr_blocks, 
@@ -39,24 +36,26 @@ locals {
                                             length(var.vpc.cidr_blocks)
                                         ), null))
 
-    subnets                             = {
-        private                         = { for index, az in var.vpc.availability_zones: 
+     subnets                            = {
+        private                         = { for index, az in var.vpc.availability_zones :
             az                          => {
-                cidr_block              = "TODO: calculate"
+                cidr_block              = cidrsubnet(
+                                            var.vpc.cidr_blocks[0], 
+                                            local.platform_defaults.private_subnet_block, 
+                                            index
+                                        )
             }
         }
-        public                          = { for index, az in var.vpc.availability_zones: 
+
+        public                          = { for index, az in var.vpc.availability_zones :
             az                          => {
-                cidr_block              = "TODO: calculate"
+                cidr_block              = cidrsubnet(
+                                            var.vpc.cidr_blocks[0], 
+                                            local.platform_defaults.public_subnet_block, 
+                                            index + length(var.vpc.availability_zones))
             }
         }
     }
-
-    routes                              = [{
-        destination_cidr_block          = "TODO"
-    }, {
-        destination_prefix_list_id      = "TODO"
-    }]
 
     tags                                = { for key, value in module.platforms: 
                                             key => value.tags }
